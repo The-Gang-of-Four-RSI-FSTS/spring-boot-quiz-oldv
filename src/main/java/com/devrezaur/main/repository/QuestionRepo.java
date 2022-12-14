@@ -6,5 +6,6 @@ import com.devrezaur.main.model.Question;
 
 @Repository
 public interface QuestionRepo extends JpaRepository<Question, Integer> {
+	public Question findByTitle(String title);
 
 }
