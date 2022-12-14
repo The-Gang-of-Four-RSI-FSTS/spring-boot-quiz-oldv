@@ -32,21 +32,26 @@ public class QuestionTests {
 	private QuestionRepo qrepo;
 	
 	@Test
-	@Rollback(false) // to save the data in DB // for that change spring.jpa.hibernate.ddl-auto=none
+	//@Rollback(false) // to save the data in DB // for that change spring.jpa.hibernate.ddl-auto=none
 	// @Order(1) // uncomment for order
 	public void testCreateQuestion() {
-		Question question = new Question(11,"what is 4+4", "8","5","3",1,-1);
+
+		Question question = new Question("what is 4+4", "8","5","3",1,-1);
 		Question saveQuestion= qrepo.save(question);
 		assertNotNull(saveQuestion);
+	
 	}
 	
 	@Test
 	// @Order(2) // uncomment for order
 	public void testFindQuestionByTitleExist() {
-		String title ="What is a correct syntax to output \"Hello World\" in Java?";
-		Question question= qrepo.findByTitle(title);
+		Question question = new Question("what is 4+4", "8","5","3",1,-1);
+		Question saveQuestion= qrepo.save(question);
 		
-		assertThat(question.getTitle()).isEqualTo(title);
+		String title ="what is 4+4";
+		Question question1= qrepo.findByTitle(title);
+		
+		assertThat(question1.getTitle()).isEqualTo(title);
 	}
 
 	@Test
@@ -58,14 +63,17 @@ public class QuestionTests {
 	}
 	
 	@Test
-	@Rollback(false)
+	//@Rollback(false)
 	public void testUpdateQuestion() {
 		String questionTitle = "what is 6*6";
-		Question question = new Question(11,questionTitle, "36","5","3",1,-1);
+		String questionTiTleUpdated = "updated question";
+		Question question = new Question(questionTitle, "36","5","3",1,-1);
+		Question question1 = qrepo.save(question);
 		
-		qrepo.save(question);
-		Question updateQuestion = qrepo.findByTitle(questionTitle);
-		assertThat(updateQuestion.getTitle()).isEqualTo(questionTitle);
+		question1.setTitle(questionTiTleUpdated);
+		
+		Question updateQuestion = qrepo.save(question1);
+		assertThat(updateQuestion.getTitle()).isEqualTo(questionTiTleUpdated);
 			}
 	
 	@Test
@@ -76,17 +84,24 @@ public class QuestionTests {
 			System.out.println(question);
 		}
 		
-		assertThat(questions).size().isGreaterThan(10);
+		assertThat(questions).size().isGreaterThan(0);
 	}
 	
 	@Test
-	@Rollback(false)
+	//@Rollback(false)
 	public void testDeleteQuestion() {
-		Question question= qrepo.findByTitle("what is 4+4");
-		Integer id = question.getQuesId();
+		
+		Question question = new Question("what is 4+4", "8","5","3",1,-1);
+		Question saveQuestion= qrepo.save(question);
+		
+	//	Question question= qrepo.findByTitle("what is 6*6");
+		
+		Integer id = saveQuestion.getQuesId();
+		
+		
 		
 		boolean isExistBeforeDelete = qrepo.findById(id).isPresent();
-		qrepo.deleteById(id);
+		if(isExistBeforeDelete)		qrepo.deleteById(id);
 		
 		boolean notExistAfterDelete = qrepo.findById(id).isPresent();
 		

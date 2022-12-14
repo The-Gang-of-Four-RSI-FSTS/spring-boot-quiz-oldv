@@ -36,6 +36,16 @@ public class Question {
 		this.ans = ans;
 		this.chose = chose;
 	}
+	
+	public Question(String title, String optionA, String optionB, String optionC, int ans, int chose) {
+		super();
+		this.title = title;
+		this.optionA = optionA;
+		this.optionB = optionB;
+		this.optionC = optionC;
+		this.ans = ans;
+		this.chose = chose;
+	}
 
 	public int getQuesId() {
 		return quesId;
