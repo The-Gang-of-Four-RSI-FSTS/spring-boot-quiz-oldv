@@ -21,6 +21,7 @@ services:
     environment:
       - MYSQL_DATABASE=quiz_db
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
     networks:
       springboot-mysql-net:
 
